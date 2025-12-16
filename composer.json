@@ -13,7 +13,8 @@
         "google/apiclient": "^2.18",
         "laravel/framework": "^11.31",
         "laravel/tinker": "^2.9",
-        "spatie/laravel-backup": "^9.2"
+        "spatie/laravel-backup": "^9.2",
+        "ext-zip": "*"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
