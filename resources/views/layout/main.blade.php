@@ -42,8 +42,7 @@
                 @include('layout.sideBar')
             @endif
 
-            <div
-                class="{{ !isset($layout) ? 'flex-1 bg-blue shadow-md p-6 overflow-y-auto' : 'flex-1 p-6 overflow-y-hidden' }}">
+           <div class="{{ !isset($layout) ? 'flex-1 bg-white shadow-md border border-gray-200 p-6 overflow-y-auto rounded-xl m-4' : 'flex-1 p-6 overflow-y-hidden' }}">
                 @yield('content')
             </div>
         </div>
