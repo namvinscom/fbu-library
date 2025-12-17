@@ -1,5 +1,5 @@
 <!-- Sidebar -->
-<aside class="w-64 sidebar-gradient shadow-md p-4 border-r-2 border-[#1a6a9c]">
+<aside class="w-64 bg-gradient-to-b from-slate-900 to-indigo-900 text-white shadow-2xl z-50 transition-all duration-300">
     <nav class="mt-4">
         <ul class="space-y-2 mt-8 -ml-1">
             <li>

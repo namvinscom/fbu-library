@@ -11,26 +11,53 @@
         <h2 class="text-2xl font-bold text-primary mb-4">Thống kê quản lý sách</h2>
         <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
             <!-- Tổng số sách -->
-            <div class="bg-gray-50 p-6 rounded-lg shadow-sm">
-                <h3 class="text-lg font-semibold text-gray-700">Tổng số sách</h3>
-                <p class="text-3xl font-bold text-primary">{{ $totalBooks }}</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+
+    <div class="bg-gradient-to-r from-blue-500 to-blue-400 rounded-xl shadow-lg p-6 text-white transform hover:scale-105 transition duration-300">
+        <div class="flex justify-between items-center">
+            <div>
+                <p class="text-sm font-medium opacity-80">Tổng số sách</p>
+                <p class="text-3xl font-bold mt-1">10,935</p>
             </div>
-            <!-- Sách sẵn sàng cho mượn -->
-            <div class="bg-gray-50 p-6 rounded-lg shadow-sm">
-                <h3 class="text-lg font-semibold text-gray-700">Sách sẵn sàng cho mượn</h3>
-                <p class="text-3xl font-bold text-primary">{{ $availableBooks }}</p>
-            </div>
-            <!-- Sách đang mượn -->
-            <div class="bg-gray-50 p-6 rounded-lg shadow-sm">
-                <h3 class="text-lg font-semibold text-gray-700">Sách đang mượn</h3>
-                <p class="text-3xl font-bold text-primary">{{ $borrowedBooks }}</p>
-            </div>
-            <!-- Sách bị mất, hỏng lý do khác-->
-            <div class="bg-gray-50 p-6 rounded-lg shadow-sm">
-                <h3 class="text-lg font-semibold text-gray-700">Sách bị mất, hỏng lý do khác</h3>
-                <p class="text-3xl font-bold text-primary">{{ $brokenBooks }}</p>
-            </div>
+            <div class="text-4xl opacity-50">
+                <i class="fa-solid fa-book"></i> </div>
         </div>
+    </div>
+
+    <div class="bg-gradient-to-r from-green-500 to-green-400 rounded-xl shadow-lg p-6 text-white transform hover:scale-105 transition duration-300">
+        <div class="flex justify-between items-center">
+            <div>
+                <p class="text-sm font-medium opacity-80">Sẵn sàng cho mượn</p>
+                <p class="text-3xl font-bold mt-1">9,211</p>
+            </div>
+            <div class="text-4xl opacity-50">
+                <i class="fa-solid fa-check-circle"></i> </div>
+        </div>
+    </div>
+
+    <div class="bg-gradient-to-r from-yellow-500 to-orange-400 rounded-xl shadow-lg p-6 text-white transform hover:scale-105 transition duration-300">
+        <div class="flex justify-between items-center">
+            <div>
+                <p class="text-sm font-medium opacity-80">Sách đang mượn</p>
+                <p class="text-3xl font-bold mt-1">667</p>
+            </div>
+            <div class="text-4xl opacity-50">
+                <i class="fa-solid fa-hand-holding-hand"></i> </div>
+        </div>
+    </div>
+
+    <div class="bg-gradient-to-r from-red-500 to-pink-500 rounded-xl shadow-lg p-6 text-white transform hover:scale-105 transition duration-300">
+        <div class="flex justify-between items-center">
+            <div>
+                <p class="text-sm font-medium opacity-80">Sách mất / Hỏng</p>
+                <p class="text-3xl font-bold mt-1">1,057</p>
+            </div>
+            <div class="text-4xl opacity-50">
+                <i class="fa-solid fa-triangle-exclamation"></i> </div>
+        </div>
+    </div>
+
+</div>
         <!-- Biểu đồ cho thống kê sách -->
         <div class="bg-gray-50 p-6 rounded-lg shadow-sm mt-6 text-center">
             <canvas id="chartBooks"></canvas>
