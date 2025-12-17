@@ -43,7 +43,7 @@
             @endif
 
             <div
-                class="{{ !isset($layout) ? 'flex-1 bg-white shadow-md p-6 overflow-y-auto' : 'flex-1 p-6 overflow-y-hidden' }}">
+                class="{{ !isset($layout) ? 'flex-1 bg-blue shadow-md p-6 overflow-y-auto' : 'flex-1 p-6 overflow-y-hidden' }}">
                 @yield('content')
             </div>
         </div>
