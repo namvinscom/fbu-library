@@ -1,5 +1,5 @@
 <!-- Sidebar -->
-<aside class="w-64 bg-blue-900 text-white flex flex-col shadow-xl h-screen transition-all duration-300">
+<aside style="background-color: #1e3a8a;" class="w-64 text-white flex flex-col shadow-xl h-screen transition-all duration-300 z-50">
     <nav class="mt-4">
         <ul class="space-y-2 mt-8 -ml-1">
             <li>
