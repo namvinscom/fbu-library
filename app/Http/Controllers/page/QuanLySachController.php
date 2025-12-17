@@ -27,7 +27,16 @@ class QuanLySachController extends Controller
 
 
     public function addBook(BookRequest $request)
-    {
+    {// --- BẮT ĐẦU ĐOẠN CODE CHÈN THÊM ---
+if ($request->hasFile('book_cover')) {
+    $file = $request->file('book_cover');
+    $filename = time() . '_' . $file->getClientOriginalName();
+    $file->storeAs('public/image', $filename);
+    
+    // Quan trọng: Gộp tên ảnh vào request để Service bên trong nhận được
+    $request->merge(['book_cover' => $filename]);
+}
+$result = $this->bookService->createBook($request);
         $result = $this->bookService->createBook($request);
         if ($result) {
             return redirect()->route('qls')->with(['type' => 'success', 'message' =>  'Thêm sách thành công!']);
@@ -36,7 +45,15 @@ class QuanLySachController extends Controller
         }
     }
     public function updateBook(BookRequest $request)
-    {
+    {if ($request->hasFile('book_cover')) {
+        $file = $request->file('book_cover');
+        $filename = time() . '_' . $file->getClientOriginalName();
+        $file->storeAs('public/image', $filename);
+        $request->merge(['book_cover' => $filename]);
+    }
+    // -------------------------------------------------------
+
+    $result = $this->bookService->updateBook($request);
         $result =  $this->bookService->updateBook($request);
         if ($result) {
             return redirect()->route('qls')->with(['type' => 'success', 'message' =>  'Sửa sách thành công!']);
