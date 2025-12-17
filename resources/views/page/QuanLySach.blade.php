@@ -63,7 +63,8 @@
                         <tr class="border-b hover:bg-gray-50 transition duration-200" data-book="{{ json_encode($book) }}">
                             <td class="p-4">
                                 <img class="w-16 h-16 object-cover rounded-lg"
-                                    src="{{ asset('storage/image/' . $book->book_cover) }}" alt="Ảnh bìa sách">
+     src="{{ $book->book_cover ? asset('storage/image/' . $book->book_cover) : 'https://via.placeholder.com/150?text=No+Image' }}"
+     alt="Ảnh bìa sách">
                             </td>
                             <td class="p-4">{{ $book->book_code }}</td>
                             <td class="p-4 text-nowrap">{{ $book->book_name }}</td>
