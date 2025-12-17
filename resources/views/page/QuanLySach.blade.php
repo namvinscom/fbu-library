@@ -134,8 +134,14 @@
                     </div>
                     <div class="mb-4">
                         <label class="block text-gray-700">Kiểu tài liệu</label>
-                        <input type="text" name="book_type" class="w-full border rounded-lg p-2"
-                            value="{{ old('book_type') }}" required>
+                        <select name="book_type" class="w-full border rounded-lg p-2" required>
+    <option value="" disabled {{ old('book_type') ? '' : 'selected' }}>Chọn kiểu tài liệu</option>
+    <option value="Bài tập lớn" {{ old('book_type') == 'Bài tập lớn' ? 'selected' : '' }}>Bài tập lớn</option>
+    <option value="Giáo trình" {{ old('book_type') == 'Giáo trình' ? 'selected' : '' }}>Giáo trình</option>
+    <option value="Luận văn" {{ old('book_type') == 'Luận văn' ? 'selected' : '' }}>Luận văn</option>
+    <option value="Tiểu luận" {{ old('book_type') == 'Tiểu luận' ? 'selected' : '' }}>Tiểu luận</option>
+    <option value="Luận án" {{ old('book_type') == 'Luận án' ? 'selected' : '' }}>Luận án</option>
+</select>
                         @error('book_type')
                             <div class="error-message"
                                 style="color: #DB3030; font-size: 12.25px; margin-top: 4px; width: 100%;">
