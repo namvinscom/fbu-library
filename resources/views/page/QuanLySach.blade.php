@@ -116,9 +116,10 @@
                         <input type="text" name="book_code" class="w-full border rounded-lg p-2"
                             value="{{ old('book_code') }}" required>
                         @error('book_code')
-                            <div class="error-message"
-                                style="color: #DB3030; font-size: 12.25px; margin-top: 4px; width: 100%;">
-                                {{ $message }}</div>
+                            <div class="text-red-500 text-sm mt-1">
+        <i class="fa-solid fa-triangle-exclamation mr-1"></i>
+        {{ $message }}
+    </div>
                         @enderror
                     </div>
                     <div class="mb-4">
