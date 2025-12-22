@@ -234,3 +234,14 @@
 @section('scripts')
     <script src="{{ asset('asset/js/bookManagement.js') }}"></script>
 @endsection
+@if($errors->any())
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Máy tính sẽ tự đi tìm cái nút có id="btn-them-sach" và bấm hộ bạn
+            var btn = document.getElementById('addBookBtn');
+            if (btn) {
+                btn.click();
+            }
+        });
+    </script>
+@endif
