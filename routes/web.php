@@ -23,7 +23,7 @@ Route::middleware(['CheckLogin'])->group(function () {
         Route::get('/', [QuanLySachController::class, 'index'])->name('qls');
         Route::post('/book/add', [QuanLySachController::class, 'addBook'])->name('book.add');
         Route::post('/book/update', [QuanLySachController::class, 'updateBook'])->name('book.update');
-        Route::post('/book/delete/{id}', [QuanLySachController::class, 'deleteBook'])->name('book.delete');
+        Route::post('/book/delete', [QuanLySachController::class, 'deleteBook'])->name('book.delete');
         Route::get('/book/search', [QuanLySachController::class, 'searchBook'])->name('book.search');
     });
 
