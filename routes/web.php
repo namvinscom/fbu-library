@@ -85,3 +85,10 @@ Route::get('/oauth2callback', function (Request $request) {
 
     return 'Lấy Refresh Token thành công! Kiểm tra file google_refresh_token.txt';
 });
+use Illuminate\Support\Facades\Artisan;
+
+// Route này dùng để chạy lệnh tạo liên kết ảnh trên Server
+Route::get('/fix-link', function () {
+    Artisan::call('storage:link');
+    return 'Đã tạo liên kết ảnh thành công! Hãy quay lại trang quản lý sách.';
+});
