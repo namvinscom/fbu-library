@@ -141,6 +141,30 @@
         </form>
     </div>
 </div>
+<div id="deleteBookModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden z-50">
+    <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
+        <div class="flex justify-between items-center mb-4">
+            <h2 class="text-xl font-bold text-primary">Xóa sách</h2>
+            <button onclick="document.getElementById('deleteBookModal').classList.add('hidden')" class="text-gray-600 text-2xl leading-none p-4">&times;</button>
+        </div>
+        <p class="mb-4">Bạn có chắc chắn muốn xóa sách này không?</p>
+        
+        <form method="POST" action="{{ route('book.delete') }}">
+            @csrf
+            <input type="hidden" name="id" id="delete_book_id">
+
+            <div class="flex justify-end space-x-2">
+                <button type="button" onclick="document.getElementById('deleteBookModal').classList.add('hidden')"
+                    class="px-4 py-2 bg-gray-500 text-white rounded-lg">Hủy</button>
+                
+                <button type="submit" 
+                    class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition duration-300">
+                    Đồng ý Xóa
+                </button>
+            </div>
+        </form>
+        </div>
+</div>
 @endsection
 
 @section('scripts')
@@ -171,5 +195,14 @@
         // 3. Mở Modal
         document.getElementById('editBookModal').classList.remove('hidden');
     }
+    // Hàm mở modal xóa và điền ID
+function confirmDelete(id) {
+    // 1. Điền ID vào ô input ẩn trong form xóa
+    document.getElementById('delete_book_id').value = id;
+    
+    // 2. Mở Modal Xóa
+    document.getElementById('deleteBookModal').classList.remove('hidden');
+}
 </script>
+
 @endsection
