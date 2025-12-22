@@ -106,10 +106,12 @@
                                             class="bg-blue-500 text-white  text-nowrap px-4 py-2 rounded-lg hover:bg-blue-600 transition duration-300 extendBtn"
                                             data-transaction-id="{{ $transaction->id }}">Gia
                                             hạn</button>
-                                        <button
-                                            class="bg-red-500 text-white  text-nowrap px-4 py-2 rounded-lg hover:bg-red-600 transition duration-300 returnBookBtn"
-                                            data-quantity-borrow="{{ $transaction->quantity_borrow }}"
-                                            data-book-code="{{ $transaction->book_code }}">Ghi trả</button>
+                                        <button class="bg-red-500 text-white text-nowrap px-4 py-2 rounded-lg hover:bg-red-600 transition duration-300 returnBookBtn"
+    data-transaction-id="{{ $transaction->id }}" 
+    data-quantity-borrow="{{ $transaction->quantity_borrow }}"
+    data-book-code="{{ $transaction->book_code }}">
+    Ghi trả
+</button>
                                     </div>
                                 @endif
 
@@ -174,6 +176,7 @@
             </div>
             <form id="returnForm" method="POST" action="{{ route('borrow.returnBook') }}">
                 @csrf
+                <input type="hidden" name="transaction_id" id="return_transaction_id">
                 <input type="hidden" name="book_code_return">
                 <div class="mb-12">
                     <div class="flex items-center p-2">
@@ -290,4 +293,49 @@
 
 @section('scripts')
     <script src="{{ asset('asset/js/borrowManagement.js') }}"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Bắt sự kiện click vào tất cả các nút có class "returnBookBtn"
+            const returnButtons = document.querySelectorAll('.returnBookBtn');
+            
+            returnButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // 1. Lấy dữ liệu từ cái nút bạn vừa bấm
+                    let transactionId = this.getAttribute('data-transaction-id'); // Lấy ID phiếu
+                    let bookCode = this.getAttribute('data-book-code');
+                    let quantity = this.getAttribute('data-quantity-borrow');
+
+                    // 2. Điền dữ liệu vào Form trong Modal
+                    // Điền ID phiếu vào ô input ẩn (QUAN TRỌNG NHẤT)
+                    document.getElementById('return_transaction_id').value = transactionId;
+                    
+                    // Điền mã sách vào ô input ẩn
+                    document.querySelector('input[name="book_code_return"]').value = bookCode;
+
+                    // 3. Cập nhật giao diện Modal cho đẹp (Hiển thị mã sách, số lượng)
+                    document.getElementById('bookCode').innerText = bookCode;
+                    
+                    let quantityInput = document.getElementById('returnQuantity');
+                    quantityInput.value = quantity;
+                    quantityInput.max = quantity; // Không cho trả quá số lượng đang mượn
+
+                    // 4. Mở Modal ra
+                    document.getElementById('returnModal').classList.remove('hidden');
+                });
+            });
+
+            // Xử lý nút Hủy và nút X để đóng Modal (Cho mượt)
+            const closeBtn = document.getElementById('closeReturnModal');
+            const cancelBtn = document.getElementById('cancelReturnModal');
+            const modal = document.getElementById('returnModal');
+
+            function closeModal() {
+                modal.classList.add('hidden');
+            }
+
+            if(closeBtn) closeBtn.addEventListener('click', closeModal);
+            if(cancelBtn) cancelBtn.addEventListener('click', closeModal);
+        });
+    </script>
 @endsection
