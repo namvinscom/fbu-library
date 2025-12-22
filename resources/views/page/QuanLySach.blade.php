@@ -54,7 +54,11 @@
                                 data-desc="{{ $book->description }}"
                                 class="bg-blue-500 text-white px-4 py-2 rounded-lg">Sửa</button>
                             
-                            <button class="bg-red-500 text-white px-4 py-2 rounded-lg">Xóa</button>
+                            <button type="button" 
+        onclick="confirmDelete('{{ $book->id }}')" 
+        class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition duration-300 deleteBookBtn">
+    Xóa
+</button>
                         </td>
                     </tr>
                 @endforeach
