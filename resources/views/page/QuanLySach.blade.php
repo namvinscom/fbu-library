@@ -75,8 +75,11 @@
                             <td class="p-4">{{ $book->description }}</td>
                             <td class="p-4">
                                 <div class="flex space-x-2">
-                                    <button
-                                        class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition duration-300 editBookBtn">Sửa</button>
+                                    <button type="button" 
+        onclick="editBook(this)" 
+        class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition duration-300 editBookBtn">
+    <i class="fa-solid fa-pen-to-square mr-1"></i> Sửa
+</button>
                                     <button
                                         class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition duration-300 deleteBookBtn">Xóa</button>
                                 </div>
@@ -242,6 +245,65 @@
 
 @section('scripts')
     <script src="{{ asset('asset/js/bookManagement.js') }}"></script>
+    <script>
+    // Hàm Javascript sửa sách (Mới nhất)
+    function editBook(button) {
+        // 1. Tìm dòng (tr) chứa nút bấm
+        let row = button.closest('tr');
+
+        // 2. Lấy cục dữ liệu từ data-book
+        let bookData = row.getAttribute('data-book');
+        
+        // Kiểm tra xem có dữ liệu không
+        if (!bookData) {
+            console.error("Không tìm thấy dữ liệu sách!");
+            return;
+        }
+
+        // Giải mã JSON thành Object
+        let book = JSON.parse(bookData);
+        console.log("Đang sửa sách:", book);
+
+        // 3. Điền ID vào ô ẩn (Quan trọng)
+        let idInput = document.getElementById('update_book_id');
+        if(idInput) idInput.value = book.id;
+
+        // 4. Tìm Form sửa
+        let form = document.getElementById('editBookForm');
+        if (!form) {
+            console.error("Không tìm thấy Form sửa (editBookForm)!");
+            return;
+        }
+
+        // 5. Điền dữ liệu vào các ô input
+        if (form.querySelector('input[name="book_code"]')) 
+            form.querySelector('input[name="book_code"]').value = book.book_code;
+
+        if (form.querySelector('input[name="book_name"]')) 
+            form.querySelector('input[name="book_name"]').value = book.book_name;
+
+        if (form.querySelector('input[name="author"]')) 
+            form.querySelector('input[name="author"]').value = book.author;
+
+        if (form.querySelector('input[name="quantity"]')) 
+            form.querySelector('input[name="quantity"]').value = book.quantity;
+
+        // Điền mô tả (nếu có)
+        if (form.querySelector('textarea[name="description"]')) 
+            form.querySelector('textarea[name="description"]').value = book.description || '';
+
+        // Chọn kiểu tài liệu
+        let selectType = form.querySelector('select[name="book_type"]');
+        if (selectType) {
+            // Đặt value cho select box trùng với kiểu sách
+            selectType.value = book.book_type;
+        }
+
+        // 6. Mở Modal (Xóa class hidden)
+        let modal = document.getElementById('editBookModal');
+        if(modal) modal.classList.remove('hidden');
+    }
+</script>
 @endsection
 @if($errors->any())
     <script>
