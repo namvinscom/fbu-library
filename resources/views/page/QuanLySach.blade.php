@@ -149,7 +149,7 @@
         </div>
         <p class="mb-4">Bạn có chắc chắn muốn xóa sách này không?</p>
         
-        <form method="POST" action="{{ route('book.delete') }}">
+        <form id="deleteBookModal" method="POST" action="{{ route('book.delete') }}">
             @csrf
             <input type="hidden" name="id" id="delete_book_id">
 
