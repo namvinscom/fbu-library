@@ -16,18 +16,18 @@ class BookRequest extends FormRequest
         // Lấy ID sách hiện tại (nếu đang sửa). Nếu thêm mới thì $id sẽ là null.
         // Lưu ý: Kiểm tra xem trong file web.php route sửa của bạn là {id} hay {book}
         // Nếu là {book} thì sửa dòng dưới thành: $id = $this->route('book') ? $this->route('book')->id : null;
-        $id = $this->route('id'); 
+       $id = $this->input('id'); 
 
         return [
-            // Rule: Bắt buộc nhập | Kiểm tra trùng trong bảng books, cột book_code, ngoại trừ id hiện tại
+            // Rule: Duy nhất trong bảng books, cột book_code, NGOẠI TRỪ cái $id này ra
             'book_code' => 'required|unique:books,book_code,' . $id,
+            
             'book_name' => 'required',
             'book_type' => 'required',
             'author'    => 'required',
             'quantity'  => 'required|integer|min:1',
         ];
     }
-
     public function messages(): array
     {
         return [
