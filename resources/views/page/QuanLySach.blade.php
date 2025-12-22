@@ -102,27 +102,23 @@
             {{ $books->links() }}
         </div>
     @endif
-    <!-- Modal Sửa thông tin sách -->
     <div id="editBookModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
         <div class="bg-white p-3 rounded-lg shadow-lg w-full max-w-2xl">
             <div class="flex justify-between items-center mb-4">
-                <h2 class="text-xl font-bold text-primary" id="formTitle">Thêm sách mới</h2>
-                <button id="closeModal" class="text-gray-600 text-2xl leading-none p-4">&times;</button>
+                <h2 class="text-xl font-bold text-primary" id="formTitle">Cập nhật sách</h2>
+                <button id="closeModal" class="text-gray-600 text-2xl leading-none p-4" onclick="document.getElementById('editBookModal').classList.add('hidden')">&times;</button>
             </div>
-           <form id="editBookForm" 
-      data-validate-update="{{ session('validateUpdate') }}"
-      data-validate-add="{{ session('validateAdd') }}" 
-      enctype="multipart/form-data" 
-      method="POST"
-      action="{{ route('book.update') }}">
-      
-    @csrf
+            
+            <form id="updateBookForm" 
+                  data-validate-update="{{ session('validateUpdate') }}"
+                  data-validate-add="{{ session('validateAdd') }}" 
+                  enctype="multipart/form-data" 
+                  method="POST"
+                  action="{{ route('book.update') }}">
+            
+                @csrf
+                <input type="hidden" name="id" id="update_book_id">
 
-    <input type="hidden" name="id" id="update_book_id">
-
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-       </div>
-</form>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div class="mb-4">
                         <label class="block text-gray-700">Mã sách</label>
@@ -130,88 +126,74 @@
                             value="{{ old('book_code') }}" required>
                         @error('book_code')
                             <div class="text-red-500 text-sm mt-1">
-        <i class="fa-solid fa-triangle-exclamation mr-1"></i>
-        {{ $message }}
-    </div>
-                        @enderror
-                    </div>
-                    <div class="mb-4">
-                        <label class="block text-gray-700">Tên sách</label>
-                        <input type="text" name="book_name" class="w-full border rounded-lg p-2"
-                            value="{{ old('book_name') }}" required>
-                        @error('book_name')
-                            <div class="error-message"
-                                style="color: #DB3030; font-size: 12.25px; margin-top: 4px; width: 100%;">
-                                {{ $message }}
-                            </div>
-                        @enderror
-                    </div>
-                    <div class="mb-4">
-                        <label class="block text-gray-700">Kiểu tài liệu</label>
-                        <select name="book_type" class="w-full border rounded-lg p-2" required>
-    <option value="" disabled {{ old('book_type') ? '' : 'selected' }}>Chọn kiểu tài liệu</option>
-    <option value="Bài tập lớn" {{ old('book_type') == 'Bài tập lớn' ? 'selected' : '' }}>Bài tập lớn</option>
-    <option value="Giáo trình" {{ old('book_type') == 'Giáo trình' ? 'selected' : '' }}>Giáo trình</option>
-    <option value="Luận văn" {{ old('book_type') == 'Luận văn' ? 'selected' : '' }}>Luận văn</option>
-    <option value="Tiểu luận" {{ old('book_type') == 'Tiểu luận' ? 'selected' : '' }}>Tiểu luận</option>
-    <option value="Luận án" {{ old('book_type') == 'Luận án' ? 'selected' : '' }}>Luận án</option>
-</select>
-                        @error('book_type')
-                            <div class="error-message"
-                                style="color: #DB3030; font-size: 12.25px; margin-top: 4px; width: 100%;">
-                                {{ $message }}
-                            </div>
-                        @enderror
-                    </div>
-                    <div class="mb-4">
-                        <label class="block text-gray-700">Tác giả</label>
-                        <input type="text" name="author" class="w-full border rounded-lg p-2"
-                            value="{{ old('author') }}" required>
-                        @error('author')
-                            <div class="error-message"
-                                style="color: #DB3030; font-size: 12.25px; margin-top: 4px; width: 100%;">
-                                {{ $message }}
-                            </div>
-                        @enderror
-                    </div>
-                    <div class="mb-4">
-                        <label class="block text-gray-700">Số lượng</label>
-                        <input type="number" name="quantity" class="w-full border rounded-lg p-2"
-                            value="{{ old('quantity') }}" required>
-                        @error('username')
-                            <div class="error-message"
-                                style="color: #DB3030; font-size: 12.25px; margin-top: 4px; width: 100%;">
+                                <i class="fa-solid fa-triangle-exclamation mr-1"></i>
                                 {{ $message }}
                             </div>
                         @enderror
                     </div>
 
-                    <div class="mb-4 book-lost hidden">
-                        <label class="block text-gray-700">Sách mất hỏng</label>
-                        <input type="number" name="broken" class="w-full border rounded-lg p-2"
-                            value="{{ old('broken') }}">
+                    <div class="mb-4">
+                        <label class="block text-gray-700">Tên sách</label>
+                        <input type="text" name="book_name" class="w-full border rounded-lg p-2"
+                            value="{{ old('book_name') }}" required>
+                        @error('book_name')
+                            <div class="text-red-500 text-sm mt-1">{{ $message }}</div>
+                        @enderror
                     </div>
+
+                    <div class="mb-4">
+                        <label class="block text-gray-700">Kiểu tài liệu</label>
+                        <select name="book_type" class="w-full border rounded-lg p-2" required>
+                            <option value="" disabled {{ old('book_type') ? '' : 'selected' }}>Chọn kiểu tài liệu</option>
+                            <option value="Bài tập lớn" {{ old('book_type') == 'Bài tập lớn' ? 'selected' : '' }}>Bài tập lớn</option>
+                            <option value="Giáo trình" {{ old('book_type') == 'Giáo trình' ? 'selected' : '' }}>Giáo trình</option>
+                            <option value="Luận văn" {{ old('book_type') == 'Luận văn' ? 'selected' : '' }}>Luận văn</option>
+                            <option value="Tiểu luận" {{ old('book_type') == 'Tiểu luận' ? 'selected' : '' }}>Tiểu luận</option>
+                            <option value="Luận án" {{ old('book_type') == 'Luận án' ? 'selected' : '' }}>Luận án</option>
+                        </select>
+                        @error('book_type')
+                            <div class="text-red-500 text-sm mt-1">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="block text-gray-700">Tác giả</label>
+                        <input type="text" name="author" class="w-full border rounded-lg p-2"
+                            value="{{ old('author') }}" required>
+                        @error('author')
+                            <div class="text-red-500 text-sm mt-1">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="block text-gray-700">Số lượng</label>
+                        <input type="number" name="quantity" class="w-full border rounded-lg p-2"
+                            value="{{ old('quantity') }}" required>
+                        @error('quantity')
+                             <div class="text-red-500 text-sm mt-1">{{ $message }}</div>
+                        @enderror
+                    </div>
+
                     <div class="mb-4 w-full">
                         <label class="block text-gray-700">Ảnh bìa sách</label>
                         <input type="file" name="book_cover" id="bookImageInput" class="w-full border rounded-lg p-2"
                             accept="image/*">
                     </div>
                 </div>
+
                 <div class="mb-4">
                     <label class="block text-gray-700">Mô tả</label>
                     <textarea name="description" class="w-full border rounded-lg p-2" rows="3">{{ old('description') }}</textarea>
-
                 </div>
+
                 <div class="flex justify-end space-x-2">
-                    <button type="button" id="cancelModal"
+                    <button type="button" id="cancelModal" onclick="document.getElementById('editBookModal').classList.add('hidden')"
                         class="px-4 py-2 bg-gray-500 text-white rounded-lg">Hủy</button>
                     <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded-lg">Lưu</button>
                 </div>
-            </form>
-        </div>
+            </form> </div>
     </div>
 
-    <!-- Modal Xóa sách -->
     <div id="deleteBookModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
         <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
             <div class="flex justify-between items-center mb-4">
@@ -228,7 +210,6 @@
         </div>
     </div>
 
-    <!-- Modal thông báo -->
     <div id="notificationModal"
         class="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-50 z-50 hidden">
         <div class="bg-white p-6 rounded-lg shadow-lg max-w-sm w-full">
@@ -239,41 +220,37 @@
             </div>
         </div>
     </div>
-
-
 @endsection
-
 
 @section('scripts')
     <script src="{{ asset('asset/js/bookManagement.js') }}"></script>
     <script>
-    // Hàm Javascript sửa sách (Mới nhất)
+    // Hàm Javascript sửa sách (Đã cập nhật ID)
     function editBook(button) {
-        alert('Đã bấm nút!');
         // 1. Tìm dòng (tr) chứa nút bấm
         let row = button.closest('tr');
 
         // 2. Lấy cục dữ liệu từ data-book
         let bookData = row.getAttribute('data-book');
         
-        // Kiểm tra xem có dữ liệu không
         if (!bookData) {
             console.error("Không tìm thấy dữ liệu sách!");
             return;
         }
 
-        // Giải mã JSON thành Object
+        // Giải mã JSON
         let book = JSON.parse(bookData);
         console.log("Đang sửa sách:", book);
 
-        // 3. Điền ID vào ô ẩn (Quan trọng)
+        // 3. Điền ID vào ô ẩn
         let idInput = document.getElementById('update_book_id');
         if(idInput) idInput.value = book.id;
 
-        // 4. Tìm Form sửa
-        let form = document.getElementById('editBookForm');
+        // 4. Tìm Form sửa (QUAN TRỌNG: Tìm theo ID mới updateBookForm)
+        let form = document.getElementById('updateBookForm');
+        
         if (!form) {
-            console.error("Không tìm thấy Form sửa (editBookForm)!");
+            console.error("LỖI: Không tìm thấy form có id='updateBookForm'. Kiểm tra lại file HTML!");
             return;
         }
 
@@ -290,31 +267,30 @@
         if (form.querySelector('input[name="quantity"]')) 
             form.querySelector('input[name="quantity"]').value = book.quantity;
 
-        // Điền mô tả (nếu có)
+        // Điền mô tả
         if (form.querySelector('textarea[name="description"]')) 
             form.querySelector('textarea[name="description"]').value = book.description || '';
 
         // Chọn kiểu tài liệu
         let selectType = form.querySelector('select[name="book_type"]');
         if (selectType) {
-            // Đặt value cho select box trùng với kiểu sách
             selectType.value = book.book_type;
         }
 
-        // 6. Mở Modal (Xóa class hidden)
+        // 6. Mở Modal
         let modal = document.getElementById('editBookModal');
         if(modal) modal.classList.remove('hidden');
     }
-</script>
+    </script>
 @endsection
+
 @if($errors->any())
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            // Dùng setTimeout để trì hoãn 500ms (0.5 giây)
             setTimeout(function() {
                 var btn = document.getElementById('addBookBtn');
                 if (btn) {
-                    btn.click(); // Lúc này nút đã sẵn sàng nhận lệnh
+                    btn.click();
                 }
             }, 500); 
         });
