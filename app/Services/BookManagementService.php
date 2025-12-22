@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Http\Requests\book\BookRequest;
+use App\Http\Requests\BookRequest;
 use App\Models\BookModel;
 use Illuminate\Http\Request;
 
