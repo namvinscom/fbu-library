@@ -8,26 +8,23 @@ class BookRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return true; 
+        return true;
     }
 
     public function rules(): array
     {
-        // 1. Lấy ID sách từ trên thanh địa chỉ (URL) nếu đang sửa
-        // Ví dụ: route là /update-book/{id} thì lấy cái {id} đó
+        // Lấy ID sách hiện tại (nếu đang sửa). Nếu thêm mới thì $id sẽ là null.
+        // Lưu ý: Kiểm tra xem trong file web.php route sửa của bạn là {id} hay {book}
+        // Nếu là {book} thì sửa dòng dưới thành: $id = $this->route('book') ? $this->route('book')->id : null;
         $id = $this->route('id'); 
 
-        // 2. Tạo bộ luật
         return [
-            // Luật: Bắt buộc nhập | Phải là duy nhất trong bảng books, cột book_code, trừ cái ID hiện tại ra
+            // Rule: Bắt buộc nhập | Kiểm tra trùng trong bảng books, cột book_code, ngoại trừ id hiện tại
             'book_code' => 'required|unique:books,book_code,' . $id,
-            
             'book_name' => 'required',
             'book_type' => 'required',
             'author'    => 'required',
             'quantity'  => 'required|integer|min:1',
-            // Nếu bạn có input ảnh là 'book_cover', có thể thêm rule validate ảnh nếu muốn
-            // 'book_cover' => 'nullable|image|mimes:jpeg,png,jpg|max:2048', 
         ];
     }
 
@@ -35,13 +32,9 @@ class BookRequest extends FormRequest
     {
         return [
             'book_code.required' => 'Mã sách không được để trống.',
-            'book_code.unique'   => 'Mã sách này ĐÃ TỒN TẠI! Vui lòng chọn mã khác.', // Đây là dòng bạn đang cần
+            'book_code.unique'   => 'Mã sách này ĐÃ TỒN TẠI! Vui lòng chọn mã khác.',
             'book_name.required' => 'Tên sách không được để trống.',
-            'book_type.required' => 'Vui lòng chọn thể loại sách.',
-            'author.required'    => 'Tên tác giả không được để trống.',
-            'quantity.required'  => 'Số lượng không được để trống.',
-            'quantity.integer'   => 'Số lượng phải là số nguyên.',
-            'quantity.min'       => 'Số lượng phải lớn hơn 0.',
+            // Các thông báo khác...
         ];
     }
 }
