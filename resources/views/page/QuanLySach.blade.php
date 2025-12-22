@@ -59,7 +59,8 @@
             <tbody>
                 @if (isset($books) && $books->isNotEmpty())
                     @foreach ($books as $book)
-                        <tr class="border-b hover:bg-gray-50 transition duration-200" data-book="{{ json_encode($book) }}">
+                        <tr class="border-b hover:bg-gray-50 transition duration-200" 
+    data-book="{{ json_encode($book) }}">
                             <td class="p-4">
                                 <img class="w-16 h-16 object-cover rounded-lg"
      src="{{ $book->book_cover ? asset('storage/image/' . $book->book_cover) : 'https://via.placeholder.com/150?text=No+Image' }}"
@@ -248,6 +249,7 @@
     <script>
     // Hàm Javascript sửa sách (Mới nhất)
     function editBook(button) {
+        alert('Đã bấm nút!');
         // 1. Tìm dòng (tr) chứa nút bấm
         let row = button.closest('tr');
 
