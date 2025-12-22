@@ -68,7 +68,7 @@ class QuanLySachController extends Controller
 
     public function deleteBook($id)
     {
-        $result = $this->bookService->deleteBook($request->id);
+        $result = $this->bookService->deleteBook($id);
 
         if ($result) {
             return response()->json(['message' => 'Xóa sách thành công!'], 200);
