@@ -25,7 +25,6 @@
             <!-- Nút Thêm sách -->
             <button type="button" id="addBookBtn"
                 class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition duration-300 flex items-center gap-2"
-                onclick="event.preventDefault();">
                 <i class="fas fa-plus"></i> <!-- Icon thêm -->
                 <span>Thêm sách</span>
             </button>
@@ -237,11 +236,13 @@
 @if($errors->any())
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            // Máy tính sẽ tự đi tìm cái nút có id="btn-them-sach" và bấm hộ bạn
-            var btn = document.getElementById('addBookBtn');
-            if (btn) {
-                btn.click();
-            }
+            // Dùng setTimeout để trì hoãn 500ms (0.5 giây)
+            setTimeout(function() {
+                var btn = document.getElementById('addBookBtn');
+                if (btn) {
+                    btn.click(); // Lúc này nút đã sẵn sàng nhận lệnh
+                }
+            }, 500); 
         });
     </script>
 @endif
