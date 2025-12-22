@@ -3,7 +3,8 @@
 namespace App\Http\Controllers\page;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\book\BookRequest;
+// Bỏ chữ \book đi
+use App\Http\Requests\BookRequest;
 use App\Models\BookModel;
 use App\Services\BookManagementService;
 use Illuminate\Contracts\View\View;
