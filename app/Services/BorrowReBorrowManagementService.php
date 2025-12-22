@@ -8,7 +8,6 @@ use App\Models\StudentModel;
 
 class BorrowReBorrowManagementService
 {
-    // ... (Các hàm getAllTransactions, checkBookQuantity, searchTransactions giữ nguyên) ...
     public function getAllTransactions()
     {
         return BorrowModel::query()
@@ -28,10 +27,10 @@ class BorrowReBorrowManagementService
                 'books.book_type',
                 'students.student_name'
             )
-            ->orderBy('borrows.created_at', 'desc') // Sắp xếp mới nhất lên đầu
+            ->orderBy('borrows.created_at', 'desc')
             ->paginate(10);
     }
-    
+
     public function checkBookQuantity($bookCode)
     {
         return BookModel::where('books.book_code', $bookCode)
@@ -59,24 +58,31 @@ class BorrowReBorrowManagementService
             ->appends(['query' => $query]);
     }
 
-    // --- PHẦN SỬA LỖI MƯỢN ---
+    // --- PHẦN QUAN TRỌNG: SỬA LỖI LOGIC MƯỢN ---
     public function handleAddTransaction($data)
     {
-        // 1. Kiểm tra Sinh viên có tồn tại và có bị khóa không
+        // 1. Kiểm tra Sinh viên
         $student = StudentModel::where('student_code', $data['student_code'])->first();
         
         if (!$student) {
             return 'student_not_found'; // Không tìm thấy SV
         }
 
-        // Giả sử cột trạng thái là 'status'. 
-        // Nếu trong DB bạn lưu "Bị khóa" là chuỗi thì so sánh chuỗi.
-        // Nếu lưu là số (0: khóa, 1: hoạt động) thì sửa lại logic dưới đây.
-        if ($student->status == 'Bị khóa' || $student->status == 0) { 
-            return 'student_banned'; // Bị cấm mượn
+        // 2. Kiểm tra trạng thái "Bị khóa"
+        // Sử dụng === để so sánh chính xác tuyệt đối.
+        // Tránh lỗi: "Hoạt động" == 0 (PHP cũ sẽ hiểu là True)
+        
+        // Nếu trạng thái là chuỗi "Bị khóa"
+        if ($student->status === 'Bị khóa') { 
+            return 'student_banned'; 
         }
 
-        // 2. Logic cộng dồn mượn (Giữ nguyên)
+        // Nếu trạng thái là số 0 hoặc chuỗi "0"
+        if ($student->status === 0 || $student->status === '0') {
+            return 'student_banned';
+        }
+
+        // 3. Logic cộng dồn phiếu mượn (nếu đã mượn sách này rồi)
         $existTransaction = BorrowModel::where('student_code', $data['student_code'])
             ->where('book_code', $data['book_code'])
             ->where('is_return', 0)
@@ -91,6 +97,7 @@ class BorrowReBorrowManagementService
             return $existTransaction->save();
         }
 
+        // 4. Tạo phiếu mượn mới
         return BorrowModel::create([
             'book_code'        => $data['book_code'],
             'student_code'     => $data['student_code'],
@@ -103,8 +110,7 @@ class BorrowReBorrowManagementService
         ]);
     }
 
-    // ... (Hàm extendBook giữ nguyên) ...
-     public function extendBook($data)
+    public function extendBook($data)
     {
         $transaction = BorrowModel::find($data['transaction_id']);
 
@@ -117,10 +123,10 @@ class BorrowReBorrowManagementService
         return $transaction->save();
     }
 
-    // --- PHẦN SỬA LỖI TRẢ SÁCH (QUAN TRỌNG) ---
-    // Thay vì tìm theo book_code, ta tìm chính xác theo ID phiếu mượn
+    // --- SỬA LỖI TRẢ SÁCH (Dùng ID phiếu mượn) ---
     public function returnBook($transactionId, $quantityReturn)
     {
+        // Tìm đúng phiếu mượn dựa trên ID duy nhất
         $transaction = BorrowModel::find($transactionId);
 
         if (!$transaction) {
@@ -131,7 +137,7 @@ class BorrowReBorrowManagementService
         if ($quantityReturn < $transaction->quantity_borrow) {
             $transaction->quantity_borrow -= $quantityReturn;
         } else {
-            // Nếu trả hết hoặc trả dư -> Đánh dấu đã trả xong
+            // Nếu trả hết -> Đánh dấu hoàn thành
             $transaction->is_return = 1;
         }
 
