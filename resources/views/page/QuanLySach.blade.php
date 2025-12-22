@@ -105,38 +105,20 @@
                 <h2 class="text-xl font-bold text-primary" id="formTitle">Thêm sách mới</h2>
                 <button id="closeModal" class="text-gray-600 text-2xl leading-none p-4">&times;</button>
             </div>
-            <form id="editBookForm" data-validate-update="{{ session('validateUpdate') }}"
-                data-validate-add="{{ session('validateAdd') }}" enctype="multipart/form-data" method="POST"
-                action="{{ route('book.update') }}">
-                @csrf
-                <form id="editBookForm" ... (các thuộc tính cũ giữ nguyên) ... >
+           <form id="editBookForm" 
+      data-validate-update="{{ session('validateUpdate') }}"
+      data-validate-add="{{ session('validateAdd') }}" 
+      enctype="multipart/form-data" 
+      method="POST"
+      action="{{ route('book.update') }}">
+      
     @csrf
-    
-    <input type="hidden" name="id" id="update_book_id"> 
-    <div class="grid grid-cols-1 ...">
-       ```
 
----
+    <input type="hidden" name="id" id="update_book_id">
 
-### 2. Quan trọng: Cập nhật Javascript (Để điền ID vào ô ẩn đó)
-
-Chỉ thêm dòng HTML trên là chưa đủ, bạn cần đảm bảo đoạn Javascript "đổ dữ liệu vào Modal" cũng phải điền ID vào cái ô ẩn đó.
-
-Bạn kéo xuống phần `<script>` (chỗ xử lý nút Sửa), tìm đoạn gán dữ liệu và thêm dòng này vào:
-
-```javascript
-function editBook(button) {
-    // ... các đoạn code lấy data cũ ...
-    let id = button.getAttribute('data-id'); // Hoặc cách bạn lấy ID
-    let book_code = button.getAttribute('data-book_code');
-    // ...
-
-    // --- THÊM DÒNG NÀY ---
-    // Điền ID vào ô input ẩn vừa tạo
-    document.getElementById('update_book_id').value = id; 
-    
-    // ... các đoạn code điền tên, tác giả cũ ...
-}
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+       </div>
+</form>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div class="mb-4">
                         <label class="block text-gray-700">Mã sách</label>
