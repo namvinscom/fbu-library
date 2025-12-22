@@ -66,16 +66,21 @@ class QuanLySachController extends Controller
         }
     }
 
-    public function deleteBook($id)
-    {
-        $result = $this->bookService->deleteBook($id);
-
-        if ($result) {
-            return response()->json(['message' => 'Xóa sách thành công!'], 200);
-        } else {
-            return response()->json(['message' => 'Không tìm thấy sách để xóa!'], 404);
-        }
+    public function deleteBook(Request $request) 
+{
+    // Lấy ID từ input hidden name="id" gửi lên
+    $id = $request->input('id'); 
+    
+    // Tìm sách và xóa
+    $book = BookModel::find($id); // Hoặc Model của bạn tên là Book
+    
+    if ($book) {
+        $book->delete();
+        return redirect()->back()->with(['type' => 'success', 'message' => 'Xóa sách thành công!']);
+    } else {
+        return redirect()->back()->with(['type' => 'error', 'message' => 'Không tìm thấy sách để xóa!']);
     }
+}
 
     public function searchBook(Request $request)
     {
